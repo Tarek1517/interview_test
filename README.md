@@ -11,7 +11,7 @@
 - Clone this repository form this url
 
 ```bash
-git clone https://github.com/Takar-Hisab/interview-test.git
+git clone https://github.com/creative-tech-park/interview-test.git
 ```
 - Setup your project with composer requirement. 
 - Setup a database with your preferred name.

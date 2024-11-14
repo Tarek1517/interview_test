@@ -2,28 +2,42 @@
 
 namespace Database\Seeders;
 
+use App\Models\Category;
+use App\Models\Feature;
 use App\Models\Product;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class ProductSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
-    public function run(): void
+    public function run()
     {
-        Product::create([
-            'name' => 'Test User',
-            'image' => '/placeholder.png',
-            'user_id' => 1,
-        ]);
-        Product::create([
-            'name' => 'Test Product',
-            'image' => '/placeholder.png',
-            'user_id' => 1,
-        ]);
+        $faker = Faker::create();
 
+        $categoryIds = [1, 2, 3, 4, 6];
+
+        for ($i = 1; $i <= 20; $i++) {
+
+            $image_name = 'product' . $i . '.jpg';
+
+            Storage::fake('public');
+
+            $productData = [
+                'name' => $faker->word,
+                'image' => $image_name,
+            ];
+
+            $product = Product::create($productData);
+
+            $product->category()->attach($categoryIds);
+
+            foreach ($faker->sentences(3) as $description) {
+                Feature::create([
+                    'product_id' => $product->id,
+                    'description' => $description,
+                ]);
+            }
+        }
     }
 }
